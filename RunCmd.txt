@@ -1,0 +1,8 @@
+ 
+npm i bcryptjs express jsonwebtoken mongoose 
+npm install dotenv passport passport-local cros speakeasy qrcode express-session
+npm i nodemon --save-dev
+npm run dev
+
+npm install express dotenv passport passport-local cors bcryptjs jsonwebtoken mongoose speakeasy qrcode express-session
+npm i nodemon --save-dev
