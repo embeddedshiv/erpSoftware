@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Email Verification</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        background-color: #f6f9fc;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        background-color: #ffffff;
+        max-width: 600px;
+        margin: 40px auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        padding: 30px;
+      }
+      h2 {
+        color: #202124;
+      }
+      p {
+        color: #5f6368;
+      }
+      .otp {
+        background: #f1f3f4;
+        border-radius: 6px;
+        font-size: 24px;
+        text-align: center;
+        padding: 12px;
+        letter-spacing: 3px;
+        margin: 20px 0;
+        color: #202124;
+      }
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #999;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Verify your email address</h2>
+      <p>Hello <strong>{{USERNAME}}</strong>,</p>
+      <p>
+        Thank you for registering with <b>Nyasa Technologies</b>.<br />
+        Please verify your email by entering the following verification code:
+      </p>
+
+      <div class="otp">{{OTP}}</div>
+
+      <p>
+        This code is valid for <b>10 minutes</b>. Do not share this code with
+        anyone.
+      </p>
+
+      <div class="footer">
+        <p>
+          © 2025 Nyasa Technologies<br />
+          This is an automated email, please do not reply.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
