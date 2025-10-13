@@ -8,7 +8,7 @@ dotenv.config();
 
 export const sendVerificationEmail = async (to, username, otp) => {
   try {
-    const templatePath = path.join(process.cwd(), "src", "utils", "templates", "emailTemplate.html");
+    const templatePath = path.join(process.cwd(), "server", "utils", "templates", "emailTemplate.html");
     let htmlContent = fs.readFileSync(templatePath, "utf-8");
     htmlContent = htmlContent
       .replace("{{USERNAME}}", username)

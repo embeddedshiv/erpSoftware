@@ -1,0 +1,51 @@
+# Generated files and directories
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-preload-cache/
+.pub-cache/
+.pub/
+build/
+flutter_*.png
+*.iml
+*.jks
+local.properties
+**/android/**/gradle-wrapper.jar
+.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/**/GeneratedPluginRegistrant.java
+**/android/key.properties
+**/.cxx/
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+**/ios/**/*sync/
+**/ios/**/.sconsign.dblite
+**/ios/**/.tags*
+**/ios/**/.vagrant/
+**/ios/**/DerivedData/
+
+# IDE specific files
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Sensitive information (example)
+GoogleService-Info.plist
+google-services.json
+# Add other sensitive files like API keys, environment variables etc. here
+# For example: .env
+
+# macOS specific files
+.DS_Store
+
+# FVM (Flutter Version Manager) cache (if used)
+.fvm/

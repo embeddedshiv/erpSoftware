@@ -140,7 +140,7 @@ export const setup2FA = async (req, res) => {
     const otp = speakeasy.totp({
       secret: secretBase32,
       encoding: "base32",
-      window: 5,
+      window: 20,
     });
 
     // Send OTP
