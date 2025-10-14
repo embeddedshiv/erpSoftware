@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'screens/auth/login_screen.dart';
+import 'screens/home/home_screen.dart';
+import 'screens/home/css_provider.dart';
 
 void main() {
-  // Removed const to avoid "Not a constant expression" error
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,25 +12,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ERP App',
+      title: 'Home Screen Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: const Color(0xFFF4F7FE),
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: Colors.grey[100],
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        ),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.black87),
-        ),
+        fontFamily: 'Poppins',
       ),
-      home: LoginScreen(), // No const here
+      home: CSSProvider(
+        bannerBgImage: 'assets/images/banner/shapes.svg',
+        clientsayBgImage: 'assets/images/clientsay/bgimage.svg',
+        child: const HomeScreen(),
+      ),
     );
   }
 }
