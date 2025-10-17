@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../utils/adaptive_layout.dart'; // helper file
 
 class ProvideScreen extends StatelessWidget {
   const ProvideScreen({super.key});
@@ -10,189 +11,202 @@ class ProvideScreen extends StatelessWidget {
       {
         "imgSrc": "assets/images/provide/marketing.svg",
         "country": "Marketing",
-        "paragraph": "Follow a hashtag total posts, videos"
+        "paragraph": "Follow a hashtag total posts, videos",
       },
       {
         "imgSrc": "assets/images/provide/graphic.svg",
         "country": "Graphic design",
-        "paragraph": "Follow a hashtag total posts, videos"
+        "paragraph": "Follow a hashtag total posts, videos",
       },
       {
         "imgSrc": "assets/images/provide/heaking.svg",
         "country": "Heaking",
-        "paragraph": "Follow a hashtag total posts, videos"
+        "paragraph": "Follow a hashtag total posts, videos",
       },
       {
         "imgSrc": "assets/images/provide/uidesign.svg",
         "country": "UI/UX Design",
-        "paragraph": "Follow a hashtag total posts, videos"
+        "paragraph": "Follow a hashtag total posts, videos",
       },
     ];
 
-    return Container(
-      key: const Key("services"),
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          bool isMobile = constraints.maxWidth < 800;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenWidth = constraints.maxWidth;
+        //final screenHight = constraints.maxHeight;
+        final isMobile = screenWidth < 800;
 
-          return Column(
-            children: [
-              Flex(
-                direction: isMobile ? Axis.vertical : Axis.horizontal,
-                crossAxisAlignment: CrossAxisAlignment.center,
+        // -----------------------------
+        // MAIN CONTAINER LAYOUT
+        // -----------------------------
+        final mainLayout = calculateAdaptiveLayout(
+          screenWidth,
+          550,
+          2, // 2 columns (text + cards)
+          5,
+          0.8,
+          500,
+        );
+
+        debugPrint(
+          "📏 [MAIN LAYOUT] screenWidth=$screenWidth, "
+          "itemWidth=${mainLayout.itemWidth}, itemHeight=${mainLayout.itemHeight}, "
+          "spacing=${mainLayout.spacing}, crossAxisCount=${mainLayout.crossAxisCount}",
+        );
+
+        final container2Width = mainLayout.itemWidth;
+
+        // -----------------------------
+        // CONTAINER 2 (CARDS) LAYOUT
+        // -----------------------------
+        final cardLayout = calculateAdaptiveLayout(
+          container2Width,
+          350,
+          2, // default 2 columns
+          20,
+          0.8,
+          350,
+        );
+
+        debugPrint(
+          "📏 [CONTAINER 2 LAYOUT] screenWidth=$screenWidth, container2Width=$container2Width "
+          "itemWidth=${mainLayout.itemWidth}, itemHeight=${mainLayout.itemHeight}, "
+          "spacing=${mainLayout.spacing}, crossAxisCount=${mainLayout.crossAxisCount}",
+        );
+
+        // -----------------------------
+        // MAIN SCROLLABLE CONTAINER
+        // -----------------------------
+        return SingleChildScrollView(
+          child: Center(
+            child: Container(
+              color: Colors.white,
+              constraints: const BoxConstraints(maxWidth: 1600),
+              padding: EdgeInsets.all(mainLayout.spacing),
+              child: Wrap(
+                spacing: mainLayout.spacing,
+                runSpacing: mainLayout.spacing,
+                alignment: WrapAlignment.center,
                 children: [
-                  // 🟦 COLUMN 1
-                  Expanded(
-                    flex: isMobile ? 0 : 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: isMobile
-                            ? CrossAxisAlignment.center
-                            : CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "We provide that service.",
-                            textAlign:
-                                isMobile ? TextAlign.center : TextAlign.start,
-                            style: TextStyle(
-                              fontSize: isMobile ? 32 : 48,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black87,
-                              height: 1.3,
-                            ),
+                  // -----------------------------
+                  // CONTAINER 1: TEXT
+                  // -----------------------------
+                  Container(
+                    width: mainLayout.itemWidth,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF8FBFF),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: isMobile
+                          ? CrossAxisAlignment.center
+                          : CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "We provide that service.",
+                          textAlign: isMobile
+                              ? TextAlign.center
+                              : TextAlign.start,
+                          style: TextStyle(
+                            fontSize: isMobile ? 32 : 48,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                            height: 1.3,
                           ),
-                          const SizedBox(height: 20),
-                          Text(
-                            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem "
-                            "accusantium doloremque laudantium, totam rem aperiam, eaque ipsa "
-                            "quae ab illo inventore veritatis et quasi architecto beatae vitae "
-                            "dicta sunt explicabo.",
-                            textAlign:
-                                isMobile ? TextAlign.center : TextAlign.start,
-                            style: TextStyle(
-                              fontSize: isMobile ? 16 : 18,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.blueGrey[600],
-                              height: 1.5,
-                            ),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          "Sed ut perspiciatis unde omnis iste natus error sit voluptatem "
+                          "accusantium doloremque laudantium, totam rem aperiam, eaque ipsa "
+                          "quae ab illo inventore veritatis et quasi architecto beatae vitae "
+                          "dicta sunt explicabo.",
+                          textAlign: isMobile
+                              ? TextAlign.center
+                              : TextAlign.start,
+                          style: TextStyle(
+                            fontSize: isMobile ? 16 : 18,
+                            color: Colors.blueGrey[600],
+                            height: 1.5,
                           ),
-                          const SizedBox(height: 30),
-                          InkWell(
-                            onTap: () {},
-                            child: Row(
-                              mainAxisAlignment: isMobile
-                                  ? MainAxisAlignment.center
-                                  : MainAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Learn more",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF1A73E8),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                SvgPicture.asset(
-                                  "assets/images/provide/arrow.svg",
-                                  width: 20,
-                                  height: 20,
-                                  colorFilter: const ColorFilter.mode(
-                                    Color(0xFF1A73E8),
-                                    BlendMode.srcIn,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
 
-                  if (!isMobile)
-                    const SizedBox(
-                        width:
-                            60), // spacing between columns for larger screens
-
-                  // 🟩 COLUMN 2
-                  Expanded(
-                    flex: isMobile ? 0 : 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE6F0FF),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 40,
-                        horizontal: 20,
-                      ),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: isMobile ? 1 : 2,
-                          crossAxisSpacing: 30,
-                          mainAxisSpacing: 30,
-                          childAspectRatio: 1,
-                        ),
-                        itemCount: aboutData.length,
-                        itemBuilder: (context, index) {
-                          final item = aboutData[index];
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.15),
-                                  blurRadius: 10,
-                                  offset: const Offset(2, 2),
+                  // -----------------------------
+                  // CONTAINER 2: CARDS
+                  // -----------------------------
+                  Container(
+                    width: mainLayout.itemWidth,
+                    padding: EdgeInsets.all(cardLayout.spacing),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE6F0FF),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Wrap(
+                      spacing: cardLayout.spacing,
+                      runSpacing: cardLayout.spacing,
+                      alignment: WrapAlignment.start,
+                      children: aboutData.map((item) {
+                        debugPrint(
+                          "🧩 [CARD] '${item['country']}' | width=${cardLayout.itemWidth}, height=${cardLayout.itemHeight}",
+                        );
+                        return Container(
+                          width: cardLayout.itemWidth,
+                          height: cardLayout.itemHeight,
+                          padding: EdgeInsets.all(cardLayout.itemWidth * 0.05),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.15),
+                                blurRadius: 8,
+                                offset: const Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                item["imgSrc"]!,
+                                height: cardLayout.itemHeight * 0.25,
+                              ),
+                              SizedBox(height: cardLayout.itemHeight * 0.1),
+                              Text(
+                                item["country"]!,
+                                style: TextStyle(
+                                  fontSize: cardLayout.itemWidth * 0.07,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                              ],
-                            ),
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SvgPicture.asset(
-                                  item["imgSrc"]!,
-                                  width: 64,
-                                  height: 64,
-                                ),
-                                const SizedBox(height: 16),
-                                Text(
-                                  item["country"]!,
-                                  style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
+                              ),
+                              SizedBox(height: cardLayout.itemHeight * 0.05),
+                              Flexible(
+                                child: Text(
                                   item["paragraph"]!,
+                                  softWrap: true,
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: cardLayout.itemWidth * 0.05,
                                     color: Colors.blueGrey[700],
+                                    height: 1.3,
                                   ),
                                 ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ],
               ),
-            ],
-          );
-        },
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

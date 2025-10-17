@@ -1,30 +1,65 @@
 import 'package:flutter/material.dart';
 
-class SignDialogButton extends StatelessWidget {
+class SignDialogButton extends StatefulWidget {
   final VoidCallback onPressed;
   const SignDialogButton({super.key, required this.onPressed});
 
   @override
-  Widget build(BuildContext context) {
-    const BorderRadius leafShape = BorderRadius.only(
-      topLeft: Radius.circular(0),
-      topRight: Radius.circular(30),
-      bottomLeft: Radius.circular(30),
-      bottomRight: Radius.circular(30),
-    );
+  State<SignDialogButton> createState() => _SignDialogButtonState();
+}
 
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color(0xFF007BFF),
-        side: const BorderSide(color: Color(0xFFD1D5DB)),
-        padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 20),
-        shape: const RoundedRectangleBorder(borderRadius: leafShape),
-        textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500), // increased font
-        elevation: 0,
-      ),
-      child: const Text("Sign In"),
+class _SignDialogButtonState extends State<SignDialogButton>
+    with SingleTickerProviderStateMixin {
+  bool _hovered = false;
+  late final AnimationController _controller;
+  late final Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
     );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) {
+        _controller.forward();
+        setState(() => _hovered = true);
+      },
+      onExit: (_) {
+        _controller.reverse();
+        setState(() => _hovered = false);
+      },
+      child: GestureDetector(
+        onTap: widget.onPressed,
+        child: AnimatedBuilder(
+          animation: _scaleAnimation,
+          builder: (context, child) => Transform.scale(
+            scale: _scaleAnimation.value,
+            child: Text(
+              "Sign In",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: _hovered ? const Color(0xFF007BFF) : Colors.black87,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

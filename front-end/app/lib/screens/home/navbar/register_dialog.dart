@@ -20,7 +20,7 @@ class RegisterDialogButton extends StatelessWidget {
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 20),
         shape: const RoundedRectangleBorder(borderRadius: leafShape),
-        textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500), // increased font
+        textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
         elevation: 0,
       ),
       child: const Text("Register"),

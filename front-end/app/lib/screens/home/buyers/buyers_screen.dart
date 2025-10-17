@@ -1,108 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../utils/adaptive_layout.dart'; // ✅ import the updated helper file
 
 class BuyersScreen extends StatelessWidget {
   const BuyersScreen({super.key});
 
-  final List<Map<String, String>> cardData = const [
-    {
-      'imgSrc': 'assets/images/buyers/ourbuyers.svg',
-      'percent': '80k',
-      'heading': 'Our buyers',
-      'subheading': 'Follow a hashtag growth total posts, videos and images.',
-    },
-    {
-      'imgSrc': 'assets/images/buyers/projectcompleted.svg',
-      'percent': '90k',
-      'heading': 'Project completed',
-      'subheading': 'Follow a hashtag growth total posts, videos and images.',
-    },
-    {
-      'imgSrc': 'assets/images/buyers/happybuyers.svg',
-      'percent': '80%',
-      'heading': 'Happy buyers',
-      'subheading': 'Follow a hashtag growth total posts, videos and images.',
-    },
-    {
-      'imgSrc': 'assets/images/buyers/teammembers.svg',
-      'percent': '50+',
-      'heading': 'Team members',
-      'subheading': 'Follow a hashtag growth total posts, videos and images.',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final crossAxisCount = screenWidth > 1024
-        ? 4
-        : screenWidth > 640
-            ? 2
-            : 1;
+    final List<Map<String, String>> buyersData = [
+      {
+        'imgSrc': 'assets/images/buyers/ourbuyers.svg',
+        'percent': '80k',
+        'heading': 'Our buyers',
+        'subheading': 'Follow a hashtag growth total posts, videos and images.',
+      },
+      {
+        'imgSrc': 'assets/images/buyers/projectcompleted.svg',
+        'percent': '90k',
+        'heading': 'Project completed',
+        'subheading': 'Follow a hashtag growth total posts, videos and images.',
+      },
+      {
+        'imgSrc': 'assets/images/buyers/happybuyers.svg',
+        'percent': '80%',
+        'heading': 'Happy buyers',
+        'subheading': 'Follow a hashtag growth total posts, videos and images.',
+      },
+      {
+        'imgSrc': 'assets/images/buyers/teammembers.svg',
+        'percent': '50+',
+        'heading': 'Team members',
+        'subheading': 'Follow a hashtag growth total posts, videos and images.',
+      },
+    ];
 
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: cardData.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 40,
-          childAspectRatio: 0.8,
-        ),
-        itemBuilder: (context, index) {
-          final item = cardData[index];
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFFD1D5DB)),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: SvgPicture.asset(
-                  item['imgSrc']!,
-                  width: 30,
-                  height: 30,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                item['percent']!,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                item['heading']!,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                item['subheading']!,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenWidth = constraints.maxWidth;
+        final double maxSpace = 5.0;
+
+        final layout = calculateAdaptiveLayout(
+          screenWidth,
+          300, // maxContainerWidth
+          buyersData.length,
+          maxSpace, // maxSpace
+          0.80, // shrinkLimit
+          300,
+        );
+
+        debugPrint(
+          "📏 [BUYERS LAYOUT] screenWidth=$screenWidth, "
+          "itemWidth=${layout.itemWidth}, itemHeight=${layout.itemHeight}, "
+          "spacing=${layout.spacing}, crossAxisCount=${layout.crossAxisCount}",
+        );
+
+        return Center(
+          child: Container(
+            color: Colors.white, // ✅ white background
+            constraints: const BoxConstraints(maxWidth: 1600),
+            padding: EdgeInsets.all(layout.spacing),
+            child: Wrap(
+              spacing: layout.spacing,
+              runSpacing: layout.spacing,
+              alignment: WrapAlignment.center,
+              children: buyersData.map((buyer) {
+                return Container(
+                  width: layout.itemWidth,
+                  height: layout.itemHeight,
+                  padding: EdgeInsets.all(layout.spacing),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        buyer['imgSrc']!,
+                        height: layout.itemHeight * 0.2,
+                      ),
+                      SizedBox(height: layout.itemHeight * 0.05),
+                      Text(
+                        buyer['percent']!,
+                        style: TextStyle(
+                          fontSize: layout.itemWidth * 0.08,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        buyer['heading']!,
+                        style: TextStyle(
+                          fontSize: layout.itemWidth * 0.06,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: layout.itemHeight * 0.03),
+                        child: Text(
+                          buyer['subheading']!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: layout.itemWidth * 0.045,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 }

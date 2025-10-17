@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../css_provider.dart';
 
 class BannerScreen extends StatelessWidget {
   const BannerScreen({super.key});
@@ -13,18 +14,35 @@ class BannerScreen extends StatelessWidget {
       bottomRight: Radius.circular(30.0),
     );
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
+    final bannerBg = CSSProvider.of(context).bannerBgImage;
 
-            // Text Section
-            const Center(
+    // Width and height of navbar
+    const double navbarWidth = 80.0;
+    const double navbarHeight = 80.0;
+
+    return Container(
+      width: double.infinity,
+      color: Colors.white,
+      child: Stack(
+        children: [
+          // Background shapes
+          Positioned.fill(
+            child: SvgPicture.asset(bannerBg, fit: BoxFit.contain),
+          ),
+          // Banner content
+          Padding(
+            padding: const EdgeInsets.only(
+              left: navbarWidth,
+              top: navbarHeight + 40, // push content below navbar
+              right: 24,
+              bottom: 40,
+            ),
+            child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  // Text Section
+                  const Text(
                     "Solve problem with an\nintegrated agency.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -34,8 +52,8 @@ class BannerScreen extends StatelessWidget {
                       height: 1.2,
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     "Ehya is the Instagram analytics platform teams use to stay focused "
                     "on the goals, track engagement for report your business.",
                     textAlign: TextAlign.center,
@@ -45,72 +63,72 @@ class BannerScreen extends StatelessWidget {
                       height: 1.5,
                     ),
                   ),
+                  const SizedBox(height: 40),
+                  // Buttons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: const Color(0xFF007BFF),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: leafShape,
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 45,
+                            vertical: 30,
+                          ),
+                          textStyle: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          elevation: 0,
+                        ),
+                        onPressed: () {
+                          debugPrint("See our portfolio button clicked");
+                        },
+                        child: const Text('See our portfolio'),
+                      ),
+                      const SizedBox(width: 16),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: const Color(0xFF007BFF),
+                          backgroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: leafShape,
+                          ),
+                          side: const BorderSide(color: Color(0xFFD1D5DB)),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 45,
+                            vertical: 30,
+                          ),
+                          textStyle: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          elevation: 0,
+                        ),
+                        onPressed: () {
+                          debugPrint("More info button clicked");
+                        },
+                        child: const Text('More info'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
+                  // Dashboard image bigger
+                  SvgPicture.asset(
+                    'assets/images/banner/dashboard.svg',
+                    width: 1400,
+                    height: 700,
+                    fit: BoxFit.contain,
+                  ),
                 ],
               ),
             ),
-
-            const SizedBox(height: 40),
-
-            // Buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: const Color(0xFF007BFF),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: leafShape,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 45, vertical: 30),
-                    textStyle: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    elevation: 0,
-                  ),
-                  onPressed: () {
-                    debugPrint("See our portfolio button clicked");
-                  },
-                  child: const Text('See our portfolio'),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: const Color(0xFF007BFF),
-                    backgroundColor: Colors.white,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: leafShape,
-                    ),
-                    side: const BorderSide(color: Color(0xFFD1D5DB)),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 45, vertical: 30),
-                    textStyle: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    elevation: 0,
-                  ),
-                  onPressed: () {
-                    debugPrint("More info button clicked");
-                  },
-                  child: const Text('More info'),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 40),
-
-            // Banner Image
-            SvgPicture.asset(
-              'assets/images/banner/dashboard.svg',
-              width: 1200,
-              height: 598,
-              fit: BoxFit.contain,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
