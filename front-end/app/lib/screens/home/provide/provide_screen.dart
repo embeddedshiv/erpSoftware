@@ -33,8 +33,6 @@ class ProvideScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final screenWidth = constraints.maxWidth;
-        //final screenHight = constraints.maxHeight;
-        final isMobile = screenWidth < 800;
 
         // -----------------------------
         // MAIN CONTAINER LAYOUT
@@ -89,76 +87,70 @@ class ProvideScreen extends StatelessWidget {
                 alignment: WrapAlignment.center,
                 children: [
                   // -----------------------------
-                  // CONTAINER 1: TEXT
+                  // CONTAINER 1: TEXT (center aligned)
                   // -----------------------------
                   Container(
                     width: mainLayout.itemWidth,
                     height: mainLayout.itemHeight,
-                    alignment: Alignment.center,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Column(
-                      crossAxisAlignment: isMobile
-                          ? CrossAxisAlignment.center
-                          : CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "We provide that service.",
-                          textAlign: isMobile
-                              ? TextAlign.center
-                              : TextAlign.start,
-                          style: TextStyle(
-                            fontSize: isMobile ? 32 : 48,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87,
-                            height: 1.3,
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "We provide that service.",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                              height: 1.3,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          "Our expertise lies in electronic system design, IoT integration, and software development — empowering industries with smart, efficient, and connected solutions tailored to their needs.",
-                          textAlign: isMobile
-                              ? TextAlign.center
-                              : TextAlign.start,
-                          style: TextStyle(
-                            fontSize: isMobile ? 16 : 18,
-                            color: Colors.blueGrey[600],
-                            height: 1.5,
+                          const SizedBox(height: 20),
+                          Text(
+                            "Our expertise lies in electronic system design, IoT integration, and software development — empowering industries with smart, efficient, and connected solutions tailored to their needs.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.blueGrey[600],
+                              height: 1.5,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 30),
-                        InkWell(
-                          onTap: () {},
-                          child: Row(
-                            mainAxisAlignment: isMobile
-                                ? MainAxisAlignment.center
-                                : MainAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Learn more",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF1A73E8),
+                          const SizedBox(height: 30),
+                          InkWell(
+                            onTap: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Learn more",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFF1A73E8),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              SvgPicture.asset(
-                                "assets/images/provide/arrow.svg",
-                                width: 20,
-                                height: 20,
-                                colorFilter: const ColorFilter.mode(
-                                  Color(0xFF1A73E8),
-                                  BlendMode.srcIn,
+                                const SizedBox(width: 8),
+                                SvgPicture.asset(
+                                  "assets/images/provide/arrow.svg",
+                                  width: 20,
+                                  height: 20,
+                                  colorFilter: const ColorFilter.mode(
+                                    Color(0xFF1A73E8),
+                                    BlendMode.srcIn,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 
@@ -182,7 +174,6 @@ class ProvideScreen extends StatelessWidget {
                         );
                         return Container(
                           width: cardLayout.itemWidth,
-                          //height: cardLayout.itemHeight,
                           padding: EdgeInsets.all(cardLayout.itemWidth * 0.05),
                           decoration: BoxDecoration(
                             color: Colors.white,
