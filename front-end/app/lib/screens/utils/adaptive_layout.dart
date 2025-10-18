@@ -37,14 +37,12 @@ AdaptiveLayout calculateAdaptiveLayout(
     double addedPerItem = remainingWidth / crossAxisCount;
     itemWidth = maxItemWidth + addedPerItem;
     itemHeight = itemWidth * aspectRatio;
-    debugPrint("CASE A ${itemWidth}");
   }
   // Case B: Shrink (within shrinkLimit)
   else if (totalWidth > screenWidth) {
     double requiredReduction = totalWidth - screenWidth;
     double reductionPerItem = requiredReduction / crossAxisCount;
     itemWidth = maxItemWidth - reductionPerItem;
-    debugPrint("CASE B sub part ${itemWidth}");
     // Case B: two column
     if (itemWidth < (maxItemWidth * shrinkLimit) &&
         screenWidth > (maxItemWidth * 2)) {
@@ -55,7 +53,6 @@ AdaptiveLayout calculateAdaptiveLayout(
       double remainingWidth =
           screenWidth - (maxItemWidth * crossAxisCount) - spacing;
       itemWidth = maxItemWidth + (remainingWidth / crossAxisCount);
-      debugPrint("CASE B inside ${itemWidth}");
     }
     // Case B: single column
     else if (itemWidth < (maxItemWidth * shrinkLimit)) {
@@ -63,7 +60,6 @@ AdaptiveLayout calculateAdaptiveLayout(
       itemWidth = screenWidth - (maxSpace * 2);
     }
     itemHeight = itemWidth * aspectRatio;
-    debugPrint("CASE B final ${itemWidth}");
   }
 
   return AdaptiveLayout(

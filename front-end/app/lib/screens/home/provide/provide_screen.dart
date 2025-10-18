@@ -10,22 +10,22 @@ class ProvideScreen extends StatelessWidget {
     final List<Map<String, String>> aboutData = [
       {
         "imgSrc": "assets/images/provide/marketing.svg",
-        "country": "Marketing",
+        "service": "Marketing",
         "paragraph": "Follow a hashtag total posts, videos",
       },
       {
         "imgSrc": "assets/images/provide/graphic.svg",
-        "country": "Graphic design",
+        "service": "Graphic design",
         "paragraph": "Follow a hashtag total posts, videos",
       },
       {
         "imgSrc": "assets/images/provide/heaking.svg",
-        "country": "Heaking",
+        "service": "Heaking",
         "paragraph": "Follow a hashtag total posts, videos",
       },
       {
         "imgSrc": "assets/images/provide/uidesign.svg",
-        "country": "UI/UX Design",
+        "service": "UI/UX Design",
         "paragraph": "Follow a hashtag total posts, videos",
       },
     ];
@@ -41,11 +41,11 @@ class ProvideScreen extends StatelessWidget {
         // -----------------------------
         final mainLayout = calculateAdaptiveLayout(
           screenWidth,
-          550,
+          650,
           2, // 2 columns (text + cards)
           5,
           0.8,
-          500,
+          600,
         );
 
         debugPrint(
@@ -61,11 +61,11 @@ class ProvideScreen extends StatelessWidget {
         // -----------------------------
         final cardLayout = calculateAdaptiveLayout(
           container2Width,
-          350,
+          400,
           2, // default 2 columns
-          20,
+          40,
           0.8,
-          350,
+          400,
         );
 
         debugPrint(
@@ -93,9 +93,11 @@ class ProvideScreen extends StatelessWidget {
                   // -----------------------------
                   Container(
                     width: mainLayout.itemWidth,
+                    height: mainLayout.itemHeight,
+                    alignment: Alignment.center,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF8FBFF),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
@@ -117,10 +119,7 @@ class ProvideScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          "Sed ut perspiciatis unde omnis iste natus error sit voluptatem "
-                          "accusantium doloremque laudantium, totam rem aperiam, eaque ipsa "
-                          "quae ab illo inventore veritatis et quasi architecto beatae vitae "
-                          "dicta sunt explicabo.",
+                          "Our expertise lies in electronic system design, IoT integration, and software development — empowering industries with smart, efficient, and connected solutions tailored to their needs.",
                           textAlign: isMobile
                               ? TextAlign.center
                               : TextAlign.start,
@@ -128,6 +127,35 @@ class ProvideScreen extends StatelessWidget {
                             fontSize: isMobile ? 16 : 18,
                             color: Colors.blueGrey[600],
                             height: 1.5,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        InkWell(
+                          onTap: () {},
+                          child: Row(
+                            mainAxisAlignment: isMobile
+                                ? MainAxisAlignment.center
+                                : MainAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Learn more",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1A73E8),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              SvgPicture.asset(
+                                "assets/images/provide/arrow.svg",
+                                width: 20,
+                                height: 20,
+                                colorFilter: const ColorFilter.mode(
+                                  Color(0xFF1A73E8),
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -150,11 +178,11 @@ class ProvideScreen extends StatelessWidget {
                       alignment: WrapAlignment.start,
                       children: aboutData.map((item) {
                         debugPrint(
-                          "🧩 [CARD] '${item['country']}' | width=${cardLayout.itemWidth}, height=${cardLayout.itemHeight}",
+                          "🧩 [CARD] '${item['service']}' | width=${cardLayout.itemWidth}, height=${cardLayout.itemHeight}",
                         );
                         return Container(
                           width: cardLayout.itemWidth,
-                          height: cardLayout.itemHeight,
+                          //height: cardLayout.itemHeight,
                           padding: EdgeInsets.all(cardLayout.itemWidth * 0.05),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -177,22 +205,20 @@ class ProvideScreen extends StatelessWidget {
                               ),
                               SizedBox(height: cardLayout.itemHeight * 0.1),
                               Text(
-                                item["country"]!,
+                                item["service"]!,
                                 style: TextStyle(
                                   fontSize: cardLayout.itemWidth * 0.07,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               SizedBox(height: cardLayout.itemHeight * 0.05),
-                              Flexible(
-                                child: Text(
-                                  item["paragraph"]!,
-                                  softWrap: true,
-                                  style: TextStyle(
-                                    fontSize: cardLayout.itemWidth * 0.05,
-                                    color: Colors.blueGrey[700],
-                                    height: 1.3,
-                                  ),
+                              Text(
+                                item["paragraph"]!,
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontSize: cardLayout.itemWidth * 0.05,
+                                  color: Colors.blueGrey[700],
+                                  height: 1.3,
                                 ),
                               ),
                             ],
