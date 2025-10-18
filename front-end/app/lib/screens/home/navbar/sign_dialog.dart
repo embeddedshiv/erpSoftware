@@ -21,9 +21,10 @@ class _SignDialogButtonState extends State<SignDialogButton>
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
   }
 
   @override
@@ -46,7 +47,7 @@ class _SignDialogButtonState extends State<SignDialogButton>
             child: Text(
               "Sign In",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: _hovered ? const Color(0xFF007BFF) : Colors.black87,
               ),

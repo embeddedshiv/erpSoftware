@@ -18,9 +18,9 @@ class RegisterDialogButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF007BFF),
         foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 38, vertical: 25),
         shape: const RoundedRectangleBorder(borderRadius: leafShape),
-        textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+        textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         elevation: 0,
       ),
       child: const Text("Register"),

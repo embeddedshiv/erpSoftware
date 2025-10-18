@@ -1,3 +1,4 @@
+// lib/screens/home/navbar/drawer_screen.dart
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -17,6 +18,7 @@ class CustomDrawer extends StatelessWidget {
     return isOpen
         ? Stack(
             children: [
+              // semi-transparent background
               GestureDetector(
                 onTap: onClose,
                 child: Container(
@@ -25,6 +27,7 @@ class CustomDrawer extends StatelessWidget {
                   height: double.infinity,
                 ),
               ),
+              // drawer panel
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(

@@ -53,7 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
-        final isMobile = width < 800;
 
         return Scaffold(
           body: Stack(
@@ -76,10 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
               Navbar(onItemSelected: _scrollToSection),
             ],
           ),
-          // Drawer only for mobile
-          drawer: isMobile
-              ? Drawer(child: VerticalNavBar(onItemSelected: _scrollToSection))
-              : null,
         );
       },
     );
