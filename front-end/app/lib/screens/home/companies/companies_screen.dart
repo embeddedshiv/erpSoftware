@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../utils/adaptive_layout.dart'; // make sure your adaptive_layout.dart is in utils
 
 class CompaniesScreen extends StatefulWidget {
   const CompaniesScreen({super.key});
@@ -14,15 +15,11 @@ class _CompaniesScreenState extends State<CompaniesScreen>
   late final AnimationController _animationController;
 
   final List<Map<String, String>> data = const [
-    {'imgSrc': 'assets/images/carousel/google.svg'},
+    {'imgSrc': 'assets/images/carousel/google.png'},
     {'imgSrc': 'assets/images/carousel/garnier.png'},
     {'imgSrc': 'assets/images/carousel/slack.png'},
     {'imgSrc': 'assets/images/carousel/udemy.png'},
-    {'imgSrc': 'assets/images/carousel/google.svg'},
-    {'imgSrc': 'assets/images/carousel/garnier.png'},
-    {'imgSrc': 'assets/images/carousel/slack.png'},
-    {'imgSrc': 'assets/images/carousel/udemy.png'},
-    {'imgSrc': 'assets/images/carousel/google.svg'},
+    {'imgSrc': 'assets/images/carousel/google.png'},
     {'imgSrc': 'assets/images/carousel/garnier.png'},
     {'imgSrc': 'assets/images/carousel/slack.png'},
     {'imgSrc': 'assets/images/carousel/udemy.png'},
@@ -32,21 +29,17 @@ class _CompaniesScreenState extends State<CompaniesScreen>
   void initState() {
     super.initState();
 
-    // Animation controller for continuous smooth scroll
     _animationController =
-        AnimationController(
-          vsync: this,
-          duration: const Duration(seconds: 25), // total scroll cycle time
-        )..addListener(() {
-          if (_scrollController.hasClients) {
-            _scrollController.jumpTo(
-              _animationController.value *
-                  _scrollController.position.maxScrollExtent,
-            );
-          }
-        });
+        AnimationController(vsync: this, duration: const Duration(seconds: 20))
+          ..addListener(() {
+            if (_scrollController.hasClients) {
+              _scrollController.jumpTo(
+                _animationController.value *
+                    _scrollController.position.maxScrollExtent,
+              );
+            }
+          });
 
-    // repeat forever for infinite scroll
     _animationController.repeat();
   }
 
@@ -59,41 +52,84 @@ class _CompaniesScreenState extends State<CompaniesScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      width: double.infinity,
-      height: 160, // 👈 height just enough for logos
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-      child: ListView.builder(
-        controller: _scrollController,
-        scrollDirection: Axis.horizontal,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: data.length * 2, // 👈 duplicate list for looping illusion
-        itemBuilder: (context, index) {
-          final item = data[index % data.length];
-          final isSvg = item['imgSrc']!.endsWith('.svg');
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40), // equal space
-            child: SizedBox(
-              width: 100,
-              height: 100,
-              child: isSvg
-                  ? SvgPicture.asset(
-                      item['imgSrc']!,
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.contain,
-                    )
-                  : Image.asset(
-                      item['imgSrc']!,
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.contain,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenWidth = constraints.maxWidth;
+
+        // -----------------------------
+        // Adaptive layout for logos
+        // -----------------------------
+        final logoLayout = calculateAdaptiveLayout(
+          screenWidth,
+          120, // max logo width
+          data.length, // default 4 logos per row
+          40, // spacing between logos
+          0.8, // shrink limit
+          120, // max logo height
+        );
+
+        debugPrint(
+          "📏 [LOGO LAYOUT] screenWidth=$screenWidth | itemWidth=${logoLayout.itemWidth}, itemHeight=${logoLayout.itemHeight}, spacing=${logoLayout.spacing}, crossAxisCount=${logoLayout.crossAxisCount}",
+        );
+
+        return Container(
+          color: Colors.white,
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            vertical: 24,
+            horizontal: logoLayout.spacing,
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            controller: _scrollController,
+            physics: const NeverScrollableScrollPhysics(),
+            child: Row(
+              children: data.map((item) {
+                final isSvg = item['imgSrc']!.endsWith('.svg');
+
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: logoLayout.spacing),
+                  child: SizedBox(
+                    width: logoLayout.itemWidth,
+                    height: logoLayout.itemHeight,
+                    child: Builder(
+                      builder: (_) {
+                        try {
+                          if (isSvg) {
+                            return SvgPicture.asset(
+                              item['imgSrc']!,
+                              width: logoLayout.itemWidth,
+                              height: logoLayout.itemHeight,
+                              fit: BoxFit.contain,
+                            );
+                          } else {
+                            return Image.asset(
+                              item['imgSrc']!,
+                              width: logoLayout.itemWidth,
+                              height: logoLayout.itemHeight,
+                              fit: BoxFit.contain,
+                            );
+                          }
+                        } catch (e) {
+                          debugPrint(
+                            "⚠️ Failed to load logo: ${item['imgSrc']} | Error: $e",
+                          );
+                          return Container(
+                            width: logoLayout.itemWidth,
+                            height: logoLayout.itemHeight,
+                            color: Colors.grey[300],
+                            child: const Center(child: Icon(Icons.error)),
+                          );
+                        }
+                      },
                     ),
+                  ),
+                );
+              }).toList(),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
